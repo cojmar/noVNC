@@ -1,0 +1,35 @@
+{
+  "name": "novnc",
+  "version": "1.0.0",
+  "description": "",
+  "bin": "index.js",
+  "scripts": {
+    "install": "git clone https://github.com/novnc/noVNC.git",
+    "start": "node index",
+    "build": "node build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "app_config": {
+    "http_port": 8000,
+    "websockets": {
+      "port": 8001,
+      "host": "127.0.0.1"
+    },
+    "tcp": {
+      "port": 5900,
+      "host": "127.0.0.1"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@angablue/exe": "^2.0.2",
+    "@maximegris/node-websockify": "^1.0.4",
+    "create-nodew-exe": "^1.0.10",
+    "express": "^4.18.2",
+    "http-proxy": "^1.18.1",
+    "opn": "^6.0.0",
+    "systray": "^1.0.5",
+    "walker": "^1.0.8"
+  }
+}
