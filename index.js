@@ -49,7 +49,12 @@ app.use((req, res, next) => {
 })
 
 app.use('/', express.static(path.join(__dirname, 'noVNC')))
-app.get('/', (req, res) => res.redirect(301, '/vnc.html'))
+app.get('/', (req, res) => {
+    // return res.redirect(301, 'vnc.html')
+    res.set('Content-Type', 'text/html')
+    res.write(fs.readFileSync('noVNC/vnc.html'))
+    res.end()
+})
 server.on('upgrade', (req, socket, head) => proxy.ws(req, socket, head))
 
 websockify({
