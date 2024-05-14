@@ -1,16 +1,14 @@
 #!/bin/sh
 # chmod +x install_service_alpine.sh
-export MY_SCRIPT_PATH=$(pwd)/server
+export MY_SCRIPT_PATH=$(pwd)/
 export MY_NODE_PATH=$(which node)
-export MY_NAME="noVNC"
+export MY_NAME=$(basename "`pwd`")
 
 rc-update del ${MY_NAME}
 rm -rf /etc/init.d/${MY_NAME}
 cat > /etc/init.d/${MY_NAME} <<EOF
 #!/sbin/openrc-run
-depend() {
-    need net
-}
+
 command=${MY_NODE_PATH}
 command_args=${MY_SCRIPT_PATH}/index.js
 command_background=true
