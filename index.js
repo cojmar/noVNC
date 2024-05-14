@@ -14,6 +14,40 @@ const app = express()
 const server = app.listen(config.http_port, () => console.log(`noVNC Interface listening at http://localhost:${config.http_port}`)) // Start HTTP server
 const proxy = httpProxy.createProxyServer({ target: `http://${config.websockets.host}:${config.websockets.port}`, ws: true })
 
+
+app.use((req, res, next) => {
+    // -----------------------------------------------------------------------
+    // authentication middleware   
+
+    if (!config.login) return next()
+
+    let do_login = false
+    config.login.routes.map(r => {
+        if (r === req.originalUrl) do_login = true
+        else if (r.length > 1 && r[r.length - 1] === '/' && req.originalUrl.indexOf(r) === 0) do_login = true
+    })
+
+    if (!do_login) return next()
+
+    const auth = { login: config.login.user, password: config.login.password } // change this
+
+    // parse login and password from headers
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+    const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':')
+
+    // Verify login and password are set and correct
+    if (login && password && login === auth.login && password === auth.password) {
+        // Access granted...
+        return next()
+    }
+
+    // Access denied...
+    res.set('WWW-Authenticate', 'Basic realm="401"') // change this
+    res.status(401).send('Authentication required.') // custom message
+
+    // -----------------------------------------------------------------------
+})
+
 app.use('/', express.static(path.join(__dirname, 'noVNC')))
 app.get('/', (req, res) => res.redirect(301, '/vnc.html'))
 server.on('upgrade', (req, socket, head) => proxy.ws(req, socket, head))

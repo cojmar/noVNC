@@ -18,6 +18,14 @@
     "tcp": {
       "port": 5900,
       "host": "127.0.0.1"
+    },
+    "login": {
+      "user": "admin",
+      "password": "superparola111",
+      "routes": [
+        "/",
+        "/vnc.html"
+      ]
     }
   },
   "author": "",
