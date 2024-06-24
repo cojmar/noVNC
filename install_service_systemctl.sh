@@ -8,13 +8,11 @@ rm -rf /etc/systemd/system/${MY_NAME}.service
 cat > /etc/systemd/system/${MY_NAME}.service <<EOF
 [Unit]
 Description=${MY_NAME}
-Requires=network.target
-After=network.target
 
 [Service]
 Restart=on-failure
+ExecStart=
 ExecStart=${MY_NODE_PATH} ${MY_SCRIPT_PATH}/index.js
-Type=forking
 
 [Install]
 WantedBy=multi-user.target
