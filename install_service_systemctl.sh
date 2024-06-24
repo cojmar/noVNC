@@ -1,6 +1,6 @@
 #!/bin/sh
 # chmod +x install_service_systemctl.sh
-export MY_SCRIPT_PATH=$(pwd)/
+export MY_SCRIPT_PATH=$(pwd)
 export MY_NODE_PATH=$(which node)
 export MY_NAME=$(basename "`pwd`")
 
